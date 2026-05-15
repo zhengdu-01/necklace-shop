@@ -183,25 +183,17 @@
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
-        .model-display svg.model-svg {
-            width: 280px;
-            height: auto;
-            max-height: 380px;
+        .model-display .model-svg {
+            width: 260px;
+            height: 360px;
             transition: opacity 0.5s ease;
         }
-        .model-display svg.model-svg.fading {
+        .model-display .model-svg.fading {
             opacity: 0;
         }
-        /* 项链覆盖层 - 精确定位在脖子上 */
-        .necklace-overlay {
-            position: absolute;
-            top: 38%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 140px;
-            height: 100px;
-            pointer-events: none;
-            z-index: 10;
+        .model-display .model-svg svg {
+            width: 100%;
+            height: 100%;
         }
         .necklace-overlay svg {
             width: 100%;
@@ -624,8 +616,7 @@
 
                 <!-- 中：模特展示 -->
                 <div class="model-display" id="modelDisplay">
-                    <svg class="model-svg" id="modelSvg"></svg>
-                    <div class="necklace-overlay" id="necklaceOverlay"></div>
+                    <div class="model-svg" id="modelSvg"></div>
                 </div>
 
                 <!-- 右：命名 -->
@@ -816,36 +807,6 @@
         </svg>`;
     }
 
-    /* ====== 项链组合（模特身上） ====== */
-    function necklaceOnModel() {
-        const c = chains.find(x => x.id === state.chain);
-        const gradId = 'nm_' + state.chain;
-        const pScale = state.size / 130;
-        return `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="${gradId}" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stop-color="${c.grad[0]}"/>
-                    <stop offset="30%" stop-color="${c.grad[1]}"/>
-                    <stop offset="70%" stop-color="${c.grad[2]}"/>
-                    <stop offset="100%" stop-color="${c.grad[3]}"/>
-                </linearGradient>
-            </defs>
-            <!-- 链子 -->
-            <path d="M10 10 Q30 30,60 38 Q90 30,110 10"
-                  stroke="url(#${gradId})" stroke-width="4" fill="none" stroke-linecap="round"/>
-            <path d="M10 10 Q30 30,60 38 Q90 30,110 10"
-                  stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none" stroke-linecap="round">
-                <animate attributeName="stroke-opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite"/>
-            </path>
-            <!-- 连接环 -->
-            <circle cx="60" cy="40" r="3" fill="none" stroke="${c.stroke}" stroke-width="2"/>
-            <!-- 吊坠 -->
-            <g transform="translate(60,42) scale(${pScale}) translate(-50,-50)">
-                ${pendantSVGBody(state.pendant, state.color, state.diamond)}
-            </g>
-        </svg>`;
-    }
-
     function pendantSVGBody(id, color, diamond) {
         const d = diamond;
         const sparkles = d ? `
@@ -932,23 +893,79 @@
 
     /* ====== 模特加载 ====== */
     async function loadModel() {
-        const svg = document.getElementById('modelSvg');
-        svg.classList.add('fading');
+        const container = document.getElementById('modelSvg');
+        container.classList.add('fading');
         try {
             const resp = await fetch(`assets/model-${state.race}-${state.body}.svg`);
-            const text = await resp.text();
+            let svgText = await resp.text();
+            // 替换项链样式
+            svgText = updateSVGNecklace(svgText);
             setTimeout(() => {
-                svg.innerHTML = text;
-                svg.classList.remove('fading');
+                container.innerHTML = svgText;
+                container.classList.remove('fading');
             }, 300);
         } catch(e) {
-            svg.innerHTML = '<text x="150" y="250" text-anchor="middle" fill="#9B8AA6" font-size="16">模特加载中...</text>';
-            svg.classList.remove('fading');
+            container.innerHTML = '<svg viewBox="0 0 200 280"><text x="100" y="140" text-anchor="middle" fill="#9B8AA6" font-size="14">模特加载中...</text></svg>';
+            container.classList.remove('fading');
         }
     }
 
+    /* ====== 更新SVG中的项链 ====== */
+    function updateSVGNecklace(svgText) {
+        const c = chains.find(x => x.id === state.chain);
+        const pScale = state.size / 100;
+        const isCurvy = state.body === 'curvy';
+        
+        // 链子路径 - 根据身材调整
+        const chainPath = isCurvy 
+            ? `M60 115 Q100 145 140 115`  // 丰满版更宽
+            : `M65 115 Q100 140 135 115`; // 纤细版
+        
+        // 链子渐变
+        const chainGrad = `<linearGradient id="chainGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="${c.grad[0]}"/>
+            <stop offset="30%" stop-color="${c.grad[1]}"/>
+            <stop offset="70%" stop-color="${c.grad[2]}"/>
+            <stop offset="100%" stop-color="${c.grad[3]}"/>
+        </linearGradient>`;
+        
+        // 吊坠
+        const pendant = pendantSVGBody(state.pendant, state.color, state.diamond);
+        const pendantY = isCurvy ? 130 : 125;
+        
+        // 贴钻闪光
+        const sparkles = state.diamond ? `
+            <circle cx="${isCurvy?80:85}" cy="120" r="2" fill="white" opacity="0.9">
+                <animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.5s" repeatCount="indefinite"/>
+            </circle>
+            <circle cx="${isCurvy?120:115}" cy="118" r="1.5" fill="#FFE066" opacity="0.8">
+                <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+            </circle>
+        ` : '';
+        
+        // 替换SVG中的项链部分
+        const newNecklace = `${chainGrad}
+        <path id="chain-path" d="${chainPath}" fill="none" stroke="url(#chainGrad)" stroke-width="3" stroke-linecap="round"/>
+        <path d="${chainPath}" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round"/>
+        ${sparkles}
+        <g id="pendant-group" transform="translate(100, ${pendantY}) scale(${pScale})">
+            ${pendant}
+        </g>`;
+        
+        // 在SVG的</svg>前插入项链（如果原来有就替换）
+        if (svgText.includes('id="chain-path"')) {
+            // 替换现有项链
+            svgText = svgText.replace(/<path id="chain-path"[\s\S]*?<\/g>/, newNecklace);
+        } else {
+            // 在</svg>前插入
+            svgText = svgText.replace('</svg>', newNecklace + '</svg>');
+        }
+        
+        return svgText;
+    }
+
     function updateNecklace() {
-        document.getElementById('necklaceOverlay').innerHTML = necklaceOnModel();
+        loadModel(); // 重新加载模特并更新项链
     }
 
     /* ====== 全部渲染 ====== */
