@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 500" width="300" height="500">
+  <!-- 白人纤细模特 -->
+  <defs>
+    <radialGradient id="skin" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FDE8D0"/>
+      <stop offset="100%" stop-color="#F5D5B8"/>
+    </radialGradient>
+    <radialGradient id="hair" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#D4A76A"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </radialGradient>
+    <radialGradient id="blush" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFB6C1" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#FFB6C1" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="dress" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#B5D8F7"/>
+      <stop offset="100%" stop-color="#87CEEB"/>
+    </linearGradient>
+  </defs>
+  <!-- 长波浪发 -->
+  <path d="M95,90 Q90,50 150,35 Q210,50 205,90 Q210,130 200,160 Q195,145 190,130 L185,110 Q180,90 170,80 Q160,75 150,73 Q140,75 130,80 Q120,90 115,110 L110,130 Q105,145 100,160 Q90,130 95,90Z" fill="url(#hair)"/>
+  <path d="M100,160 Q95,180 92,200 Q88,220 90,240 Q92,230 95,210 Q98,190 100,175Z" fill="url(#hair)"/>
+  <path d="M200,160 Q205,180 208,200 Q212,220 210,240 Q208,230 205,210 Q202,190 200,175Z" fill="url(#hair)"/>
+  <path d="M110,160 Q100,180 95,220 L90,300 Q88,340 100,360 L110,380 Q120,400 150,410 Q180,400 190,380 L200,360 Q212,340 210,300 L205,220 Q200,180 190,160 Z" fill="url(#dress)" stroke="#6BB5E0" stroke-width="1"/>
+  <rect x="138" y="140" width="24" height="25" rx="10" fill="url(#skin)"/>
+  <ellipse cx="150" cy="100" rx="48" ry="53" fill="url(#skin)"/>
+  <ellipse cx="130" cy="100" rx="7" ry="8" fill="white"/>
+  <ellipse cx="170" cy="100" rx="7" ry="8" fill="white"/>
+  <ellipse cx="131" cy="101" rx="4.5" ry="5.5" fill="#4A90D9"/>
+  <ellipse cx="171" cy="101" rx="4.5" ry="5.5" fill="#4A90D9"/>
+  <circle cx="133" cy="99" r="1.8" fill="white"/>
+  <circle cx="173" cy="99" r="1.8" fill="white"/>
+  <path d="M122,88 Q130,84 138,87" stroke="#B8860B" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <path d="M162,87 Q170,84 178,88" stroke="#B8860B" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+  <ellipse cx="118" cy="115" rx="11" ry="7" fill="url(#blush)"/>
+  <ellipse cx="182" cy="115" rx="11" ry="7" fill="url(#blush)"/>
+  <path d="M143,122 Q150,128 157,122" stroke="#E88B9C" stroke-width="2" fill="#F0A0AE" stroke-linecap="round"/>
+  <path d="M148,108 Q150,111 152,108" stroke="#E8C4B0" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <ellipse cx="102" cy="100" rx="5" ry="9" fill="url(#skin)"/>
+  <ellipse cx="198" cy="100" rx="5" ry="9" fill="url(#skin)"/>
+  <circle cx="150" cy="155" r="3" fill="none" stroke="#FF69B4" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.3"/>
+</svg>

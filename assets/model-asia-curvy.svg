@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 500" width="300" height="500">
+  <!-- 亚洲丰满模特 -->
+  <defs>
+    <radialGradient id="skin" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#FFE0C2"/>
+      <stop offset="100%" stop-color="#F5C5A3"/>
+    </radialGradient>
+    <radialGradient id="hair" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#2C1810"/>
+      <stop offset="100%" stop-color="#1A0E08"/>
+    </radialGradient>
+    <radialGradient id="blush" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFB6C1" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#FFB6C1" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="dress" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFB6C1"/>
+      <stop offset="100%" stop-color="#FF85A2"/>
+    </linearGradient>
+  </defs>
+  <ellipse cx="150" cy="95" rx="62" ry="70" fill="url(#hair)"/>
+  <!-- 丰满身体 -->
+  <path d="M100,160 Q85,185 80,230 L78,310 Q76,350 90,375 L105,395 Q120,415 150,420 Q180,415 195,395 L210,375 Q224,350 222,310 L220,230 Q215,185 200,160 Z" fill="url(#dress)" stroke="#FF6B8A" stroke-width="1"/>
+  <rect x="136" y="140" width="28" height="25" rx="10" fill="url(#skin)"/>
+  <ellipse cx="150" cy="100" rx="50" ry="55" fill="url(#skin)"/>
+  <path d="M100,80 Q100,40 150,35 Q200,40 200,80 Q200,65 185,60 Q170,55 150,58 Q130,55 115,60 Q100,65 100,80Z" fill="url(#hair)"/>
+  <path d="M100,80 Q95,100 98,120 L100,115 Q100,95 105,82Z" fill="url(#hair)"/>
+  <path d="M200,80 Q205,100 202,120 L200,115 Q200,95 195,82Z" fill="url(#hair)"/>
+  <path d="M110,75 Q120,55 140,52 Q130,65 115,78Z" fill="url(#hair)"/>
+  <path d="M140,50 Q150,48 160,50 Q155,62 145,65Z" fill="url(#hair)"/>
+  <ellipse cx="130" cy="100" rx="8" ry="9" fill="white"/>
+  <ellipse cx="170" cy="100" rx="8" ry="9" fill="white"/>
+  <ellipse cx="131" cy="101" rx="5" ry="6" fill="#3D2B1F"/>
+  <ellipse cx="171" cy="101" rx="5" ry="6" fill="#3D2B1F"/>
+  <circle cx="133" cy="99" r="2" fill="white"/>
+  <circle cx="173" cy="99" r="2" fill="white"/>
+  <path d="M120,88 Q130,84 140,87" stroke="#2C1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M160,87 Q170,84 180,88" stroke="#2C1810" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="118" cy="115" rx="12" ry="8" fill="url(#blush)"/>
+  <ellipse cx="182" cy="115" rx="12" ry="8" fill="url(#blush)"/>
+  <path d="M142,122 Q150,130 158,122" stroke="#FF6B8A" stroke-width="2" fill="#FF8FAB" stroke-linecap="round"/>
+  <path d="M148,108 Q150,112 152,108" stroke="#E8B89D" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+  <ellipse cx="100" cy="100" rx="6" ry="10" fill="url(#skin)"/>
+  <ellipse cx="200" cy="100" rx="6" ry="10" fill="url(#skin)"/>
+  <circle cx="150" cy="155" r="3" fill="none" stroke="#FF69B4" stroke-width="0.5" stroke-dasharray="2,2" opacity="0.3"/>
+</svg>

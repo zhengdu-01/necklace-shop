@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 魔法项链工坊 🌸</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ====== 基础重置 ====== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(160deg, #FFF0F5 0%, #FDE8F0 30%, #E8E0F0 60%, #E0F0E8 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #5D4E6D;
+        }
+
+        /* ====== 漂浮装饰 ====== */
+        .floating-deco {
+            position: fixed;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatDeco 8s ease-in-out infinite;
+            font-size: 20px;
+            opacity: 0.5;
+        }
+        @keyframes floatDeco {
+            0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+            25% { transform: translateY(-15px) rotate(5deg) scale(1.1); }
+            75% { transform: translateY(10px) rotate(-3deg) scale(0.95); }
+        }
+        .floating-deco:nth-child(1) { top: 5%; left: 3%; animation-delay: 0s; font-size: 22px; }
+        .floating-deco:nth-child(2) { top: 15%; right: 5%; animation-delay: 1.5s; font-size: 18px; }
+        .floating-deco:nth-child(3) { top: 45%; left: 2%; animation-delay: 3s; font-size: 26px; }
+        .floating-deco:nth-child(4) { top: 70%; right: 3%; animation-delay: 0.8s; font-size: 20px; }
+        .floating-deco:nth-child(5) { top: 85%; left: 8%; animation-delay: 2.2s; font-size: 24px; }
+        .floating-deco:nth-child(6) { top: 30%; right: 2%; animation-delay: 4s; font-size: 16px; }
+        .floating-deco:nth-child(7) { top: 55%; left: 5%; animation-delay: 1s; font-size: 28px; }
+        .floating-deco:nth-child(8) { top: 90%; right: 8%; animation-delay: 3.5s; font-size: 22px; }
+
+        /* ====== 容器 ====== */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 25px 20px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ====== 标题 ====== */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: fadeSlideDown 0.8s ease;
+        }
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            font-size: 2.6rem;
+            background: linear-gradient(135deg, #FF69B4, #DA70D6, #9370DB);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 6px;
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.02); filter: brightness(1.1); }
+        }
+        .subtitle {
+            color: #9B8AA6;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        /* ====== 通用卡片 ====== */
+        .card {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 28px;
+            margin-bottom: 22px;
+            box-shadow: 0 8px 32px rgba(210, 160, 200, 0.15);
+            border: 2px solid rgba(255, 182, 193, 0.3);
+            transition: box-shadow 0.3s ease;
+        }
+        .card:hover {
+            box-shadow: 0 12px 40px rgba(210, 160, 200, 0.25);
+        }
+        .card-title {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.25rem;
+            color: #7B5E8C;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card-title .icon { font-size: 1.1rem; }
+
+        /* ====== 模特试戴区 ====== */
+        .model-section {
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            gap: 20px;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .model-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* 模特选择面板 */
+        .model-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .selector-group label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #9B8AA6;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .selector-btns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .sel-btn {
+            font-family: 'Nunito', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 2px solid #E8D5E8;
+            background: #FFF5F8;
+            color: #7B5E8C;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .sel-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 4px 12px rgba(210, 160, 200, 0.3);
+        }
+        .sel-btn.active {
+            background: linear-gradient(135deg, #FFB6C1, #DDA0DD);
+            color: white;
+            border-color: #FF69B4;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.3);
+        }
+
+        /* 模特展示区 */
+        .model-display {
+            position: relative;
+            background: radial-gradient(ellipse at 50% 30%, #FFF5F8, #F8E8F0);
+            border-radius: 24px;
+            border: 3px solid #FFD6E7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 420px;
+            overflow: hidden;
+        }
+        .model-display::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #FFB6C1, #DDA0DD, #B0E0E6, #FFB6C1);
+            background-size: 200% 100%;
+            animation: rainbowBar 4s linear infinite;
+        }
+        @keyframes rainbowBar {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .model-display svg.model-svg {
+            width: 220px;
+            height: auto;
+            transition: opacity 0.5s ease;
+        }
+        .model-display svg.model-svg.fading {
+            opacity: 0;
+        }
+        /* 项链覆盖层 */
+        .necklace-overlay {
+            position: absolute;
+            top: 28%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 80px;
+            pointer-events: none;
+            z-index: 10;
+        }
+        .necklace-overlay svg {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 2px 6px rgba(255, 105, 180, 0.4));
+            animation: necklaceGlow 2.5s ease-in-out infinite;
+        }
+        @keyframes necklaceGlow {
+            0%, 100% { filter: drop-shadow(0 2px 6px rgba(255, 105, 180, 0.4)); }
+            50% { filter: drop-shadow(0 2px 12px rgba(255, 105, 180, 0.7)); }
+        }
+
+        /* 项链命名 */
+        .name-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .name-panel label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #9B8AA6;
+        }
+        .name-input {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.1rem;
+            color: #7B5E8C;
+            background: linear-gradient(135deg, #FFF5F8, #F0E8F5);
+            border: 2px solid #E8D5E8;
+            border-radius: 20px;
+            padding: 10px 18px;
+            outline: none;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+        .name-input:focus {
+            border-color: #FF69B4;
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+        }
+        .name-input::placeholder { color: #C9B8D0; }
+
+        /* ====== 选项网格 ====== */
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 12px;
+        }
+        .option-card {
+            background: linear-gradient(145deg, #FFF8FA, #FFF0F5);
+            border: 3px solid transparent;
+            border-radius: 18px;
+            padding: 14px 8px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+        }
+        .option-card:hover {
+            transform: translateY(-4px) scale(1.06);
+            box-shadow: 0 8px 24px rgba(210, 160, 200, 0.3);
+        }
+        .option-card.selected {
+            border-color: #FF69B4;
+            background: linear-gradient(145deg, #FFE4EC, #FFD6E7);
+            animation: cardPop 0.4s ease;
+        }
+        @keyframes cardPop {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.12); }
+            100% { transform: scale(1); }
+        }
+        .option-card.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 5px; right: 5px;
+            width: 20px; height: 20px;
+            background: #FF69B4;
+            color: white;
+            border-radius: 50%;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            animation: checkPop 0.3s ease;
+        }
+        @keyframes checkPop {
+            0% { transform: scale(0); }
+            60% { transform: scale(1.3); }
+            100% { transform: scale(1); }
+        }
+        .option-icon {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .option-label {
+            font-weight: 700;
+            color: #7B5E8C;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+
+        /* ====== 定制选项区 ====== */
+        .customize-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        .customize-group {
+            flex: 1;
+            min-width: 180px;
+        }
+        .customize-group label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #9B8AA6;
+            margin-bottom: 8px;
+            display: block;
+        }
+        /* 颜色选择 */
+        .color-options {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .color-dot {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .color-dot:hover {
+            transform: scale(1.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .color-dot.active {
+            border-color: #7B5E8C;
+            transform: scale(1.15);
+            box-shadow: 0 0 0 3px rgba(123, 94, 140, 0.3);
+        }
+        /* 大小滑块 */
+        .size-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #FFD6E7, #FF69B4);
+            outline: none;
+        }
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #FF69B4;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(255, 105, 180, 0.4);
+            transition: transform 0.2s ease;
+        }
+        .size-slider::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+        .size-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: #B0A0B8;
+            margin-top: 4px;
+        }
+        /* 贴钻开关 */
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            display: inline-block;
+        }
+        .toggle-switch input { display: none; }
+        .toggle-slider {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: #E0D0E0;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 22px; height: 22px;
+            border-radius: 50%;
+            background: white;
+            top: 3px; left: 3px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .toggle-switch input:checked + .toggle-slider {
+            background: linear-gradient(135deg, #FF69B4, #DDA0DD);
+        }
+        .toggle-switch input:checked + .toggle-slider::before {
+            transform: translateX(22px);
+        }
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #7B5E8C;
+        }
+
+        /* ====== 操作按钮 ====== */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            font-family: 'Fredoka One', cursive;
+            font-size: 1.15rem;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 14px 36px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #FF69B4, #DA70D6);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.4);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #DDA0DD, #9370DB);
+            box-shadow: 0 6px 20px rgba(147, 112, 219, 0.4);
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn:hover {
+            transform: translateY(-3px) scale(1.04);
+        }
+        .btn:hover::before { left: 100%; }
+        .btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        /* ====== Toast ====== */
+        .toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-120px);
+            background: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            box-shadow: 0 10px 40px rgba(210, 160, 200, 0.4);
+            font-weight: 700;
+            color: #7B5E8C;
+            z-index: 9999;
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* ====== 分享卡片弹窗 ====== */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(93, 78, 109, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.show { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 30px;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-content h3 {
+            font-family: 'Fredoka One', cursive;
+            color: #7B5E8C;
+            margin-bottom: 16px;
+        }
+        .modal-content canvas {
+            border-radius: 16px;
+            max-width: 100%;
+            box-shadow: 0 4px 20px rgba(210, 160, 200, 0.3);
+            margin-bottom: 16px;
+        }
+        .modal-close {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            background: #F0E8F5;
+            color: #7B5E8C;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 24px;
+            cursor: pointer;
+            margin: 0 6px;
+            transition: all 0.3s ease;
+        }
+        .modal-close:hover { background: #E0D0E8; }
+
+        /* ====== 撒花 ====== */
+        .confetti {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            animation: confettiFall 2.5s ease-out forwards;
+        }
+        @keyframes confettiFall {
+            0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+            100% { opacity: 0; transform: translateY(100vh) rotate(720deg) scale(0.5); }
+        }
+
+        /* ====== 入场动画 ====== */
+        .animate-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+        .animate-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ====== 响应式 ====== */
+        @media (max-width: 768px) {
+            h1 { font-size: 2rem; }
+            .card { padding: 20px; }
+            .model-display { min-height: 350px; }
+            .model-display svg.model-svg { width: 180px; }
+            .necklace-overlay { width: 100px; height: 65px; }
+            .options-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
+            .option-card { padding: 10px 6px; }
+            .option-icon { width: 40px; height: 40px; }
+            .btn { padding: 12px 28px; font-size: 1rem; }
+        }
+        @media (max-width: 480px) {
+            .options-grid { grid-template-columns: repeat(4, 1fr); gap: 6px; }
+            .customize-row { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 漂浮装饰 -->
+    <div class="floating-deco">✨</div>
+    <div class="floating-deco">💖</div>
+    <div class="floating-deco">⭐</div>
+    <div class="floating-deco">🌸</div>
+    <div class="floating-deco">💫</div>
+    <div class="floating-deco">💕</div>
+    <div class="floating-deco">🦋</div>
+    <div class="floating-deco">🎀</div>
+
+    <div class="container">
+        <!-- 标题 -->
+        <header>
+            <h1>🌸 魔法项链工坊 🌸</h1>
+            <p class="subtitle">设计属于你的梦幻项链，在模特身上试戴效果吧 ✨</p>
+        </header>
+
+        <!-- 模特试戴区 -->
+        <section class="card animate-in" id="modelCard">
+            <div class="model-section">
+                <!-- 左：模特选择 -->
+                <div class="model-selector">
+                    <div class="selector-group">
+                        <label>🎨 选择肤色</label>
+                        <div class="selector-btns" id="raceBtns">
+                            <button class="sel-btn active" data-race="asia">亚洲</button>
+                            <button class="sel-btn" data-race="african">非洲裔</button>
+                            <button class="sel-btn" data-race="white">白人</button>
+                            <button class="sel-btn" data-race="latin">拉丁裔</button>
+                        </div>
+                    </div>
+                    <div class="selector-group">
+                        <label>👗 选择身材</label>
+                        <div class="selector-btns" id="bodyBtns">
+                            <button class="sel-btn active" data-body="slim">纤细</button>
+                            <button class="sel-btn" data-body="curvy">丰满</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 中：模特展示 -->
+                <div class="model-display" id="modelDisplay">
+                    <svg class="model-svg" id="modelSvg"></svg>
+                    <div class="necklace-overlay" id="necklaceOverlay"></div>
+                </div>
+
+                <!-- 右：命名 -->
+                <div class="name-panel">
+                    <label>✏️ 给项链起个名字</label>
+                    <input type="text" class="name-input" id="necklaceName" placeholder="我的梦幻项链~" maxlength="12">
+                    <div style="margin-top: 16px;">
+                        <label>📋 当前搭配</label>
+                        <div id="comboInfo" style="font-size: 0.82rem; color: #9B8AA6; line-height: 1.6; margin-top: 6px;">
+                            吊坠：❤️ 爱心<br>链子：✨ 金链
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 吊坠选择 -->
+        <section class="card animate-in" id="pendantCard">
+            <div class="card-title"><span class="icon">💎</span> 选择吊坠</div>
+            <div class="options-grid" id="pendantGrid"></div>
+        </section>
+
+        <!-- 链子选择 -->
+        <section class="card animate-in" id="chainCard">
+            <div class="card-title"><span class="icon">🔗</span> 选择链子</div>
+            <div class="options-grid" id="chainGrid"></div>
+        </section>
+
+        <!-- 定制选项 -->
+        <section class="card animate-in" id="customCard">
+            <div class="card-title"><span class="icon">🎨</span> 定制选项</div>
+            <div class="customize-row">
+                <div class="customize-group">
+                    <label>吊坠颜色</label>
+                    <div class="color-options" id="colorOptions"></div>
+                </div>
+                <div class="customize-group">
+                    <label>吊坠大小</label>
+                    <input type="range" class="size-slider" id="sizeSlider" min="60" max="140" value="100">
+                    <div class="size-labels"><span>小</span><span>中</span><span>大</span></div>
+                </div>
+                <div class="customize-group">
+                    <label>装饰</label>
+                    <div class="toggle-label">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="diamondToggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                        <span>✨ 闪亮贴钻</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 操作按钮 -->
+        <section class="animate-in" id="actionCard">
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="saveBtn">💖 保存我的项链</button>
+                <button class="btn btn-secondary" id="shareBtn">📤 生成分享卡片</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"><span>💖</span><span id="toastMsg"></span></div>
+
+    <!-- 分享弹窗 -->
+    <div class="modal-overlay" id="shareModal">
+        <div class="modal-content">
+            <h3>🎉 你的专属项链</h3>
+            <canvas id="shareCanvas" width="400" height="560"></canvas>
+            <div>
+                <button class="modal-close" id="downloadBtn">📥 下载图片</button>
+                <button class="modal-close" id="closeModal">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    /* ====== 状态管理 ====== */
+    const state = {
+        pendant: 'heart',
+        chain: 'gold',
+        race: 'asia',
+        body: 'slim',
+        color: '#FF69B4',
+        size: 100,
+        diamond: false,
+        name: ''
+    };
+
+    /* ====== 吊坠数据 ====== */
+    const pendants = [
+        { id: 'heart', label: '❤️ 爱心', colors: ['#FF69B4','#FF4785','#E91E63','#FF1493','#FF6B8A','#FFB6C1'] },
+        { id: 'star', label: '⭐ 星星', colors: ['#FFD700','#FFA500','#FF8C00','#FFB800','#FFE066','#FFCC02'] },
+        { id: 'gem', label: '💎 宝石', colors: ['#9370DB','#7B68EE','#6A5ACD','#DA70D6','#BA55D3','#8A2BE2'] },
+        { id: 'moon', label: '🌙 月亮', colors: ['#FFD700','#F0E68C','#DAA520','#FFFACD','#EEE8AA','#BDB76B'] },
+        { id: 'bow', label: '🎀 蝴蝶结', colors: ['#FF69B4','#DDA0DD','#FF85C1','#FFB6C1','#DA70D6','#FF1493'] },
+        { id: 'crown', label: '👑 皇冠', colors: ['#FFD700','#FFA500','#DAA520','#FFD700','#B8860B','#CD853F'] },
+        { id: 'flower', label: '🌸 花朵', colors: ['#FF69B4','#FFB6C1','#FF85A2','#FF6B8A','#FF1493','#FFC0CB'] },
+        { id: 'butterfly', label: '🦋 蝴蝶', colors: ['#87CEEB','#9370DB','#DDA0DD','#6495ED','#7B68EE','#00CED1'] }
+    ];
+
+    /* ====== 链子数据 ====== */
+    const chains = [
+        { id: 'gold', label: '✨ 金链', grad: ['#FFE066','#FFD700','#DAA520','#FFD700'], stroke: '#B8860B' },
+        { id: 'silver', label: '✨ 银链', grad: ['#FFFFFF','#E8E8E8','#C0C0C0','#E8E8E8'], stroke: '#A8A8A8' },
+        { id: 'rosegold', label: '✨ 玫瑰金', grad: ['#FFE4E1','#E8A9A9','#B76E79','#E8A9A9'], stroke: '#B76E79' }
+    ];
+
+    /* ====== 吊坠SVG生成 ====== */
+    function pendantSVG(id, color, size, diamond) {
+        const s = size / 100;
+        const d = diamond;
+        const sparkles = d ? `
+            <circle cx="45" cy="30" r="2" fill="white" opacity="0.9"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.5s" repeatCount="indefinite"/></circle>
+            <circle cx="70" cy="20" r="1.5" fill="white" opacity="0.7"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.8s" repeatCount="indefinite"/></circle>
+            <circle cx="55" cy="45" r="1.8" fill="#FFE066" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/></circle>
+            <circle cx="35" cy="50" r="1.2" fill="white" opacity="0.6"><animate attributeName="opacity" values="0.6;0.1;0.6" dur="1.3s" repeatCount="indefinite"/></circle>
+        ` : '';
+
+        const svgs = {
+            heart: `<path d="M50 88 C20 60,5 40,15 25 C25 10,45 15,50 30 C55 15,75 10,85 25 C95 40,80 60,50 88Z" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/>
+                <ellipse cx="32" cy="32" rx="8" ry="5" fill="rgba(255,255,255,0.35)" transform="rotate(-25 32 32)"/>`,
+            star: `<polygon points="50,5 61,38 97,38 68,58 79,92 50,72 21,92 32,58 3,38 39,38" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/>
+                <polygon points="50,18 56,38 78,38 60,50 67,72 50,60 33,72 40,50 22,38 44,38" fill="rgba(255,255,255,0.25)"/>`,
+            gem: `<polygon points="50,5 85,35 75,90 25,90 15,35" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/>
+                <polygon points="50,5 65,35 50,85 35,35" fill="rgba(255,255,255,0.2)"/>
+                <line x1="15" y1="35" x2="85" y2="35" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>`,
+            moon: `<path d="M70 15 C40 15,20 40,25 70 C30 95,60 100,85 85 C60 90,35 75,35 50 C35 25,55 15,70 15Z" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/>
+                <circle cx="45" cy="45" r="4" fill="rgba(255,255,255,0.35)"/>`,
+            bow: `<path d="M50 50 C20 20,5 35,25 50 C5 65,20 80,50 50Z" fill="${color}" stroke="${darken(color,20)}" stroke-width="1.5"/>
+                <path d="M50 50 C80 20,95 35,75 50 C95 65,80 80,50 50Z" fill="${color}" stroke="${darken(color,20)}" stroke-width="1.5"/>
+                <path d="M50 50 C45 40,55 40,50 50Z" fill="${darken(color,15)}"/>
+                <circle cx="50" cy="50" r="4" fill="${darken(color,20)}"/>
+                <path d="M50 50 L50 75" stroke="${darken(color,20)}" stroke-width="3" stroke-linecap="round"/>`,
+            crown: `<path d="M15 65 L25 25 L40 45 L50 15 L60 45 L75 25 L85 65Z" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/>
+                <rect x="15" y="65" width="70" height="12" rx="3" fill="${color}" stroke="${darken(color,30)}" stroke-width="1.5"/>
+                <circle cx="50" cy="18" r="4" fill="white" opacity="0.7"/>
+                <circle cx="25" cy="28" r="3" fill="white" opacity="0.5"/>
+                <circle cx="75" cy="28" r="3" fill="white" opacity="0.5"/>`,
+            flower: `<g transform="translate(50,50)">
+                <ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9"/>
+                <ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(60)"/>
+                <ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(120)"/>
+                <ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(180)"/>
+                <ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(240)"/>
+                <ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(300)"/>
+                <circle cx="0" cy="0" r="8" fill="#FFE066"/>
+                <circle cx="0" cy="0" r="4" fill="#FFD700"/>
+            </g>`,
+            butterfly: `<g transform="translate(50,50)">
+                <path d="M0 0 C-15 -30,-45 -25,-35 -5 C-45 15,-15 30,0 0Z" fill="${color}" opacity="0.85"/>
+                <path d="M0 0 C15 -30,45 -25,35 -5 C45 15,15 30,0 0Z" fill="${color}" opacity="0.85"/>
+                <path d="M0 0 C-10 10,-25 25,-15 20 C-25 35,-10 25,0 15Z" fill="${darken(color,15)}" opacity="0.7"/>
+                <path d="M0 0 C10 10,25 25,15 20 C25 35,10 25,0 15Z" fill="${darken(color,15)}" opacity="0.7"/>
+                <line x1="0" y1="-5" x2="-8" y2="-20" stroke="${darken(color,30)}" stroke-width="1.5"/>
+                <line x1="0" y1="-5" x2="8" y2="-20" stroke="${darken(color,30)}" stroke-width="1.5"/>
+                <circle cx="-8" cy="-20" r="2" fill="${darken(color,30)}"/>
+                <circle cx="8" cy="-20" r="2" fill="${darken(color,30)}"/>
+            </g>`
+        };
+
+        return `<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="transform:scale(${s})">
+            ${svgs[id] || svgs.heart}${sparkles}
+        </svg>`;
+    }
+
+    /* ====== 链子SVG生成 ====== */
+    function chainSVG(chainId) {
+        const c = chains.find(x => x.id === chainId);
+        const gradId = 'cg_' + chainId;
+        return `<svg viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="${gradId}" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="${c.grad[0]}"/>
+                    <stop offset="30%" stop-color="${c.grad[1]}"/>
+                    <stop offset="70%" stop-color="${c.grad[2]}"/>
+                    <stop offset="100%" stop-color="${c.grad[3]}"/>
+                </linearGradient>
+            </defs>
+            <path d="M0 15 Q15 5,30 15 Q45 25,60 15 Q75 5,90 15 Q105 25,120 15"
+                  stroke="url(#${gradId})" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M0 15 Q15 5,30 15 Q45 25,60 15 Q75 5,90 15 Q105 25,120 15"
+                  stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round">
+                <animate attributeName="stroke-opacity" values="0.2;0.6;0.2" dur="2s" repeatCount="indefinite"/>
+            </path>
+        </svg>`;
+    }
+
+    /* ====== 项链组合（模特身上） ====== */
+    function necklaceOnModel() {
+        const c = chains.find(x => x.id === state.chain);
+        const gradId = 'nm_' + state.chain;
+        const pScale = state.size / 130;
+        return `<svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="${gradId}" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="${c.grad[0]}"/>
+                    <stop offset="30%" stop-color="${c.grad[1]}"/>
+                    <stop offset="70%" stop-color="${c.grad[2]}"/>
+                    <stop offset="100%" stop-color="${c.grad[3]}"/>
+                </linearGradient>
+            </defs>
+            <!-- 链子 -->
+            <path d="M10 10 Q30 30,60 38 Q90 30,110 10"
+                  stroke="url(#${gradId})" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <path d="M10 10 Q30 30,60 38 Q90 30,110 10"
+                  stroke="rgba(255,255,255,0.35)" stroke-width="1.5" fill="none" stroke-linecap="round">
+                <animate attributeName="stroke-opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite"/>
+            </path>
+            <!-- 连接环 -->
+            <circle cx="60" cy="40" r="3" fill="none" stroke="${c.stroke}" stroke-width="2"/>
+            <!-- 吊坠 -->
+            <g transform="translate(60,42) scale(${pScale}) translate(-50,-50)">
+                ${pendantSVGBody(state.pendant, state.color, state.diamond)}
+            </g>
+        </svg>`;
+    }
+
+    function pendantSVGBody(id, color, diamond) {
+        const d = diamond;
+        const sparkles = d ? `
+            <circle cx="45" cy="30" r="2" fill="white" opacity="0.9"><animate attributeName="opacity" values="0.9;0.3;0.9" dur="1.5s" repeatCount="indefinite"/></circle>
+            <circle cx="70" cy="20" r="1.5" fill="white" opacity="0.7"><animate attributeName="opacity" values="0.7;0.2;0.7" dur="1.8s" repeatCount="indefinite"/></circle>
+            <circle cx="55" cy="45" r="1.8" fill="#FFE066" opacity="0.8"><animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/></circle>
+        ` : '';
+        const svgs = {
+            heart: `<path d="M50 88 C20 60,5 40,15 25 C25 10,45 15,50 30 C55 15,75 10,85 25 C95 40,80 60,50 88Z" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/><ellipse cx="32" cy="32" rx="8" ry="5" fill="rgba(255,255,255,0.35)" transform="rotate(-25 32 32)"/>`,
+            star: `<polygon points="50,5 61,38 97,38 68,58 79,92 50,72 21,92 32,58 3,38 39,38" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/><polygon points="50,18 56,38 78,38 60,50 67,72 50,60 33,72 40,50 22,38 44,38" fill="rgba(255,255,255,0.25)"/>`,
+            gem: `<polygon points="50,5 85,35 75,90 25,90 15,35" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/><polygon points="50,5 65,35 50,85 35,35" fill="rgba(255,255,255,0.2)"/><line x1="15" y1="35" x2="85" y2="35" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>`,
+            moon: `<path d="M70 15 C40 15,20 40,25 70 C30 95,60 100,85 85 C60 90,35 75,35 50 C35 25,55 15,70 15Z" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/><circle cx="45" cy="45" r="4" fill="rgba(255,255,255,0.35)"/>`,
+            bow: `<path d="M50 50 C20 20,5 35,25 50 C5 65,20 80,50 50Z" fill="${color}" stroke="${darken(color,20)}" stroke-width="1.5"/><path d="M50 50 C80 20,95 35,75 50 C95 65,80 80,50 50Z" fill="${color}" stroke="${darken(color,20)}" stroke-width="1.5"/><circle cx="50" cy="50" r="4" fill="${darken(color,20)}"/><path d="M50 50 L50 75" stroke="${darken(color,20)}" stroke-width="3" stroke-linecap="round"/>`,
+            crown: `<path d="M15 65 L25 25 L40 45 L50 15 L60 45 L75 25 L85 65Z" fill="${color}" stroke="${darken(color,30)}" stroke-width="2"/><rect x="15" y="65" width="70" height="12" rx="3" fill="${color}" stroke="${darken(color,30)}" stroke-width="1.5"/><circle cx="50" cy="18" r="4" fill="white" opacity="0.7"/>`,
+            flower: `<g transform="translate(50,50)"><ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9"/><ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(60)"/><ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(120)"/><ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(180)"/><ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(240)"/><ellipse cx="0" cy="-18" rx="12" ry="18" fill="${color}" opacity="0.9" transform="rotate(300)"/><circle cx="0" cy="0" r="8" fill="#FFE066"/></g>`,
+            butterfly: `<g transform="translate(50,50)"><path d="M0 0 C-15 -30,-45 -25,-35 -5 C-45 15,-15 30,0 0Z" fill="${color}" opacity="0.85"/><path d="M0 0 C15 -30,45 -25,35 -5 C45 15,15 30,0 0Z" fill="${color}" opacity="0.85"/><path d="M0 0 C-10 10,-25 25,-15 20 C-25 35,-10 25,0 15Z" fill="${darken(color,15)}" opacity="0.7"/><path d="M0 0 C10 10,25 25,15 20 C25 35,10 25,0 15Z" fill="${darken(color,15)}" opacity="0.7"/><line x1="0" y1="-5" x2="-8" y2="-20" stroke="${darken(color,30)}" stroke-width="1.5"/><line x1="0" y1="-5" x2="8" y2="-20" stroke="${darken(color,30)}" stroke-width="1.5"/></g>`
+        };
+        return (svgs[id] || svgs.heart) + sparkles;
+    }
+
+    /* ====== 颜色工具 ====== */
+    function darken(hex, amount) {
+        let r = parseInt(hex.slice(1,3),16), g = parseInt(hex.slice(3,5),16), b = parseInt(hex.slice(5,7),16);
+        r = Math.max(0, r - amount); g = Math.max(0, g - amount); b = Math.max(0, b - amount);
+        return '#' + [r,g,b].map(x => x.toString(16).padStart(2,'0')).join('');
+    }
+
+    /* ====== 渲染UI ====== */
+    function renderPendants() {
+        const grid = document.getElementById('pendantGrid');
+        grid.innerHTML = pendants.map(p => `
+            <div class="option-card ${state.pendant === p.id ? 'selected' : ''}" data-pendant="${p.id}">
+                <div class="option-icon">${pendantSVG(p.id, p.colors[0], 100, false)}</div>
+                <span class="option-label">${p.label}</span>
+            </div>
+        `).join('');
+        grid.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                state.pendant = card.dataset.pendant;
+                const p = pendants.find(x => x.id === state.pendant);
+                state.color = p.colors[0];
+                renderAll();
+                miniConfetti(card);
+            });
+        });
+    }
+
+    function renderChains() {
+        const grid = document.getElementById('chainGrid');
+        grid.innerHTML = chains.map(c => `
+            <div class="option-card ${state.chain === c.id ? 'selected' : ''}" data-chain="${c.id}">
+                <div class="option-icon">${chainSVG(c.id)}</div>
+                <span class="option-label">${c.label}</span>
+            </div>
+        `).join('');
+        grid.querySelectorAll('.option-card').forEach(card => {
+            card.addEventListener('click', () => {
+                state.chain = card.dataset.chain;
+                renderAll();
+                miniConfetti(card);
+            });
+        });
+    }
+
+    function renderColors() {
+        const p = pendants.find(x => x.id === state.pendant);
+        const container = document.getElementById('colorOptions');
+        container.innerHTML = p.colors.map(c => `
+            <div class="color-dot ${state.color === c ? 'active' : ''}" data-color="${c}" style="background:${c}"></div>
+        `).join('');
+        container.querySelectorAll('.color-dot').forEach(dot => {
+            dot.addEventListener('click', () => {
+                state.color = dot.dataset.color;
+                renderAll();
+            });
+        });
+    }
+
+    function renderComboInfo() {
+        const p = pendants.find(x => x.id === state.pendant);
+        const c = chains.find(x => x.id === state.chain);
+        document.getElementById('comboInfo').innerHTML = `吊坠：${p.label}<br>链子：${c.label}${state.diamond ? '<br>✨ 闪亮贴钻' : ''}`;
+    }
+
+    /* ====== 模特加载 ====== */
+    async function loadModel() {
+        const svg = document.getElementById('modelSvg');
+        svg.classList.add('fading');
+        try {
+            const resp = await fetch(`assets/model-${state.race}-${state.body}.svg`);
+            const text = await resp.text();
+            setTimeout(() => {
+                svg.innerHTML = text;
+                svg.classList.remove('fading');
+            }, 300);
+        } catch(e) {
+            svg.innerHTML = '<text x="150" y="250" text-anchor="middle" fill="#9B8AA6" font-size="16">模特加载中...</text>';
+            svg.classList.remove('fading');
+        }
+    }
+
+    function updateNecklace() {
+        document.getElementById('necklaceOverlay').innerHTML = necklaceOnModel();
+    }
+
+    /* ====== 全部渲染 ====== */
+    function renderAll() {
+        renderPendants();
+        renderChains();
+        renderColors();
+        updateNecklace();
+        renderComboInfo();
+    }
+
+    /* ====== 特效 ====== */
+    function miniConfetti(el) {
+        const rect = el.getBoundingClientRect();
+        const emojis = ['✨','💖','⭐','💕','🌸'];
+        for (let i = 0; i < 6; i++) {
+            const c = document.createElement('div');
+            c.className = 'confetti';
+            c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+            c.style.left = rect.left + rect.width/2 + (Math.random()-0.5)*50 + 'px';
+            c.style.top = rect.top + rect.height/2 + 'px';
+            c.style.fontSize = (Math.random()*10+14) + 'px';
+            document.body.appendChild(c);
+            setTimeout(() => c.remove(), 2500);
+        }
+    }
+
+    function bigConfetti() {
+        const emojis = ['✨','💖','⭐','💕','🌸','💫','🎉','🌟','🎀','🦋'];
+        for (let i = 0; i < 40; i++) {
+            setTimeout(() => {
+                const c = document.createElement('div');
+                c.className = 'confetti';
+                c.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                c.style.left = Math.random() * window.innerWidth + 'px';
+                c.style.top = '-30px';
+                c.style.fontSize = (Math.random()*15+18) + 'px';
+                document.body.appendChild(c);
+                setTimeout(() => c.remove(), 2500);
+            }, i * 40);
+        }
+    }
+
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toastMsg').textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2500);
+    }
+
+    /* ====== 分享卡片 ====== */
+    function generateShareCard() {
+        const canvas = document.getElementById('shareCanvas');
+        const ctx = canvas.getContext('2d');
+        const w = 400, h = 560;
+
+        // 背景
+        const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+        bgGrad.addColorStop(0, '#FFF0F5');
+        bgGrad.addColorStop(0.5, '#FDE8F0');
+        bgGrad.addColorStop(1, '#E8E0F0');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, w, h);
+
+        // 装饰圆
+        ctx.globalAlpha = 0.1;
+        ctx.fillStyle = '#FF69B4';
+        ctx.beginPath(); ctx.arc(350, 80, 120, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = '#9370DB';
+        ctx.beginPath(); ctx.arc(50, 480, 100, 0, Math.PI*2); ctx.fill();
+        ctx.globalAlpha = 1;
+
+        // 边框
+        ctx.strokeStyle = '#FFD6E7';
+        ctx.lineWidth = 3;
+        ctx.roundRect(15, 15, w-30, h-30, 20);
+        ctx.stroke();
+
+        // 标题
+        ctx.fillStyle = '#FF69B4';
+        ctx.font = 'bold 24px Fredoka One, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('🌸 魔法项链工坊 🌸', w/2, 55);
+
+        // 项链名称
+        const name = document.getElementById('necklaceName').value.trim() || '我的梦幻项链';
+        ctx.fillStyle = '#7B5E8C';
+        ctx.font = 'bold 18px Fredoka One, sans-serif';
+        ctx.fillText(`"${name}"`, w/2, 85);
+
+        // 项链SVG转图片
+        const p = pendants.find(x => x.id === state.pendant);
+        const c = chains.find(x => x.id === state.chain);
+        const necklaceStr = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 120 100">
+            <defs><linearGradient id="sc" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="${c.grad[0]}"/><stop offset="30%" stop-color="${c.grad[1]}"/><stop offset="70%" stop-color="${c.grad[2]}"/><stop offset="100%" stop-color="${c.grad[3]}"/></linearGradient></defs>
+            <path d="M10 10 Q30 30,60 38 Q90 30,110 10" stroke="url(#sc)" stroke-width="4" fill="none" stroke-linecap="round"/>
+            <circle cx="60" cy="40" r="3" fill="none" stroke="${c.stroke}" stroke-width="2"/>
+            <g transform="translate(60,42) scale(1.2) translate(-50,-50)">${pendantSVGBody(state.pendant, state.color, state.diamond)}</g>
+        </svg>`;
+        const img = new Image();
+        img.onload = () => {
+            ctx.drawImage(img, 50, 110, 300, 300);
+            // 底部信息
+            ctx.fillStyle = '#9B8AA6';
+            ctx.font = '14px Nunito, sans-serif';
+            ctx.fillText(`${p.label}  ·  ${c.label}${state.diamond ? '  ·  ✨闪亮贴钻' : ''}`, w/2, 450);
+            ctx.fillStyle = '#B0A0B8';
+            ctx.font = '12px Nunito, sans-serif';
+            ctx.fillText('在魔法项链工坊设计你的专属项链 ✨', w/2, 480);
+            // 小装饰
+            ctx.font = '20px sans-serif';
+            ctx.fillText('💖 ⭐ 🌸', w/2, 520);
+        };
+        img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(necklaceStr);
+    }
+
+    /* ====== 事件绑定 ====== */
+    // 模特选择
+    document.getElementById('raceBtns').addEventListener('click', e => {
+        const btn = e.target.closest('.sel-btn');
+        if (!btn) return;
+        document.querySelectorAll('#raceBtns .sel-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.race = btn.dataset.race;
+        loadModel();
+    });
+    document.getElementById('bodyBtns').addEventListener('click', e => {
+        const btn = e.target.closest('.sel-btn');
+        if (!btn) return;
+        document.querySelectorAll('#bodyBtns .sel-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        state.body = btn.dataset.body;
+        loadModel();
+    });
+
+    // 大小滑块
+    document.getElementById('sizeSlider').addEventListener('input', e => {
+        state.size = parseInt(e.target.value);
+        updateNecklace();
+    });
+
+    // 贴钻开关
+    document.getElementById('diamondToggle').addEventListener('change', e => {
+        state.diamond = e.target.checked;
+        updateNecklace();
+        renderComboInfo();
+        if (state.diamond) miniConfetti(e.target.closest('.toggle-switch'));
+    });
+
+    // 保存按钮
+    document.getElementById('saveBtn').addEventListener('click', () => {
+        const name = document.getElementById('necklaceName').value.trim() || '我的梦幻项链';
+        showToast(`💖 "${name}" 保存成功！`);
+        bigConfetti();
+        localStorage.setItem('necklaceState', JSON.stringify(state));
+    });
+
+    // 分享按钮
+    document.getElementById('shareBtn').addEventListener('click', () => {
+        generateShareCard();
+        document.getElementById('shareModal').classList.add('show');
+        bigConfetti();
+    });
+
+    // 关闭弹窗
+    document.getElementById('closeModal').addEventListener('click', () => {
+        document.getElementById('shareModal').classList.remove('show');
+    });
+    document.getElementById('shareModal').addEventListener('click', e => {
+        if (e.target === e.currentTarget) e.currentTarget.classList.remove('show');
+    });
+
+    // 下载
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+        const canvas = document.getElementById('shareCanvas');
+        const link = document.createElement('a');
+        link.download = (document.getElementById('necklaceName').value.trim() || '我的梦幻项链') + '.png';
+        link.href = canvas.toDataURL();
+        link.click();
+        showToast('📥 图片已下载！');
+    });
+
+    // 入场动画
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('visible');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+
+    /* ====== 初始化 ====== */
+    // 恢复保存的状态
+    try {
+        const saved = JSON.parse(localStorage.getItem('necklaceState'));
+        if (saved) Object.assign(state, saved);
+        document.getElementById('sizeSlider').value = state.size;
+        document.getElementById('diamondToggle').checked = state.diamond;
+        document.getElementById('necklaceName').value = state.name || '';
+        // 更新模特按钮
+        document.querySelectorAll('#raceBtns .sel-btn').forEach(b => b.classList.toggle('active', b.dataset.race === state.race));
+        document.querySelectorAll('#bodyBtns .sel-btn').forEach(b => b.classList.toggle('active', b.dataset.body === state.body));
+    } catch(e) {}
+
+    document.getElementById('necklaceName').addEventListener('input', e => { state.name = e.target.value; });
+
+    renderAll();
+    loadModel();
+    </script>
+</body>
+</html>
