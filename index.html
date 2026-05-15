@@ -184,21 +184,22 @@
             100% { background-position: -200% 0; }
         }
         .model-display svg.model-svg {
-            width: 220px;
+            width: 280px;
             height: auto;
+            max-height: 380px;
             transition: opacity 0.5s ease;
         }
         .model-display svg.model-svg.fading {
             opacity: 0;
         }
-        /* 项链覆盖层 */
+        /* 项链覆盖层 - 精确定位在脖子上 */
         .necklace-overlay {
             position: absolute;
-            top: 28%;
+            top: 38%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 120px;
-            height: 80px;
+            width: 140px;
+            height: 100px;
             pointer-events: none;
             z-index: 10;
         }
@@ -567,8 +568,8 @@
             h1 { font-size: 2rem; }
             .card { padding: 20px; }
             .model-display { min-height: 350px; }
-            .model-display svg.model-svg { width: 180px; }
-            .necklace-overlay { width: 100px; height: 65px; }
+            .model-display svg.model-svg { width: 220px; }
+            .necklace-overlay { width: 110px; height: 80px; top: 40%; }
             .options-grid { grid-template-columns: repeat(4, 1fr); gap: 8px; }
             .option-card { padding: 10px 6px; }
             .option-icon { width: 40px; height: 40px; }
